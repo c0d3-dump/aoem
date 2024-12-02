@@ -194,31 +194,22 @@ impl Chunk {
         mesh.insert_indices(Indices::U32(mesh_data.indices));
 
         let texture_handle = asset_server.load("textures/atlas.png");
-        let layout = TextureAtlasLayout::from_grid(UVec2::splat(16), 16, 16, None, None);
-        let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
         // voxels
         commands
             .spawn((
-                MaterialMeshBundle {
-                    mesh: meshes.add(mesh),
-                    material: materials.add(StandardMaterial {
-                        // base_color: Color::Srgba(BLACK),
-                        base_color_texture: Some(texture_handle.clone()),
-                        ..default()
-                    }),
-                    transform: Transform::from_xyz(
-                        position.x as f32 - (CHUNK_SIZE as f32) / 2.0,
-                        -(CHUNK_SIZE as f32) / 2.0,
-                        position.z as f32 - (CHUNK_SIZE as f32) / 2.0,
-                    )
-                    .with_scale(Vec3::new(1.0, 1.0, 1.0)),
+                Mesh3d(meshes.add(mesh)),
+                MeshMaterial3d(materials.add(StandardMaterial {
+                    base_color: Color::WHITE,
+                    base_color_texture: Some(texture_handle.clone()),
                     ..default()
-                },
-                TextureAtlas {
-                    layout: texture_atlas_layout.clone(),
-                    index: 0,
-                },
+                })),
+                Transform::from_xyz(
+                    position.x as f32 - (CHUNK_SIZE as f32) / 2.0,
+                    -(CHUNK_SIZE as f32) / 2.0,
+                    position.z as f32 - (CHUNK_SIZE as f32) / 2.0,
+                )
+                .with_scale(Vec3::new(1.0, 1.0, 1.0)),
             ))
             .id()
     }

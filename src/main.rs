@@ -1,12 +1,11 @@
 use bevy::{
-    core_pipeline::tonemapping::Tonemapping,
+    core_pipeline::{bloom::Bloom, tonemapping::Tonemapping},
     diagnostic::FrameTimeDiagnosticsPlugin,
     prelude::*,
     render::view::{GpuCulling, NoCpuCulling},
     window::WindowMode,
 };
-use bevy_editor_pls::EditorPlugin;
-use bevy_rapier3d::plugin::RapierConfiguration;
+// use bevy_rapier3d::plugin::RapierConfiguration;
 // use bevy_screen_diagnostics::{ScreenDiagnosticsPlugin, ScreenFrameDiagnosticsPlugin};
 use chunk::{Chunk, PlayerCamera};
 // use bevy_rapier3d::prelude::*;
@@ -31,7 +30,6 @@ fn main() {
                 })
                 .set(ImagePlugin::default_nearest()),
         )
-        .add_plugins(EditorPlugin::default())
         .add_plugins(FrameTimeDiagnosticsPlugin::default())
         // .add_plugins(ScreenDiagnosticsPlugin::default())
         // .add_plugins(ScreenFrameDiagnosticsPlugin)
@@ -45,31 +43,23 @@ fn main() {
 }
 
 fn setup(mut commands: Commands) {
-    commands.insert_resource(RapierConfiguration::new(1.0));
+    // commands.insert_resource(RapierConfiguration::new(1.0));
 
     // directional light
-    commands.spawn(DirectionalLightBundle {
-        directional_light: DirectionalLight {
+    commands.spawn((
+        DirectionalLight {
             shadows_enabled: true,
-            ..Default::default()
+            ..default()
         },
-        transform: Transform::from_xyz(5.0, 15.0, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
-        ..Default::default()
-    });
+        Transform::from_xyz(5.0, 15.0, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
+    ));
 
     // camera
     commands.spawn((
         PlayerCamera,
-        Camera3dBundle {
-            transform: Transform::from_xyz(0.0, 150.0, 0.0).looking_at(Vec3::ZERO, Vec3::Y),
-            camera: Camera {
-                is_active: true,
-                ..default()
-            },
-            tonemapping: Tonemapping::AcesFitted,
-            ..default()
-        },
-        NoCpuCulling,
-        GpuCulling,
+        Camera3d { ..default() },
+        Tonemapping::AcesFitted,
+        Bloom::NATURAL,
+        Transform::from_xyz(0.0, 150.0, 0.0).looking_at(Vec3::ZERO, Vec3::Y),
     ));
 }
