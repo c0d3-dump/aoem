@@ -1,0 +1,30 @@
+[package]
+name = "aoem"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = { version = "0.14.2", features = [] }
+bevy_editor_pls = "0.10.0"
+bevy_flycam = "0.14.1"
+bevy_rapier3d = "0.27.0"
+bevy_screen_diagnostics = "0.6.0"
+noise = { version = "0.9.0", features = [] }
+# egui = "0.29.1"
+# futures = "0.3.31"
+# serde = { version = "1.0.215", features = ["derive"] }
+# serde_json = "1.0.133"
+# tokio = { version = "1.41.1", features = ["full"] }
+# tokio-tungstenite = "0.24.0"
+# tokio-macros = "2.2.0"
+
+# [dev-dependencies]
+# bevy = "0.14.2"
+
+# uncomment for mobile
+# [lib]
+# name = "aoem"
+# crate-type = ["staticlib", "cdylib"]
+
+# [profile.dev]
+# opt-level = 3
